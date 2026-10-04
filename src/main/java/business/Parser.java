@@ -14,6 +14,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import exception.LogUnreadableException;
+import exception.RulebookFormatException;
+import exception.RulebookReadException;
 import model.Action;
 import model.Level;
 import model.Log;
@@ -21,15 +23,16 @@ import model.Rulebook;
 import model.Path;
 
 public class Parser {
-    public static Log parseLog(final String filepath) throws LogUnreadableException {
+    public static Log parseLog(final String filepath) throws RulebookReadException, RulebookFormatException {
         final java.nio.file.Path path;
         try {
             path = java.nio.file.Path.of(filepath);
         } catch (final InvalidPathException e) {
             throw new LogUnreadableException(e, filepath);
         }
-        final Log log = new Log(); // empty container where will store good stings and malformed
-        try (final LineNumberReader lineNumberReader = new LineNumberReader(new FileReader(path.toFile()))) {
+        final Log log = new Log(); // empty container where will store good strings and malformed
+        try (final LineNumberReader lineNumberReader = 
+                    new LineNumberReader(new FileReader(path.toFile()))) {
             while (true) {
                 final String line = lineNumberReader.readLine();
                 if (line == null) break; // end of file
@@ -53,8 +56,8 @@ public class Parser {
                             LocalDateTime.parse(
                                 timestampText, DateTimeFormatter
                                 .ofPattern("yyyy-MM-dd HH:mm:ss")); // which format we expect
-                    final Level level = new level(levelText);
-                    final InetAddress inetAddress = inetAddress.getByName(ipText); // return common type of InetAddress
+                    final Level level = new Level(levelText);
+                    final InetAddress inetAddress = InetAddress.getByName(ipText); // return common type of InetAddress
 
                     if (!(inetAddress instanceof Inet4Address)) { // check if it exactly Inet4Address and
                         log.getMalformedEntries().add(new Log.MalformedEntry(lineNumber, line)); // sent to malformed if not
@@ -89,6 +92,38 @@ public class Parser {
     }
 
     public static Rulebook parseRulebook(final String filepath) throws LogUnreadableException {
-        //TODO: implement logic
+        final java.nio.file.Path path;
+        try {
+            path = java.nio.file.Path.of(filepath);
+        } catch (final InvalidPathException e) {
+            throw new RulebookReadException(e, filepath); 
+        }
+        final Rulebook rulebook = new Rulebook();
+        try (final LineNumberReader lineNumberReader = 
+                    new LineNumberReader(new FileReader(path.toFile()))) {
+            if ("level,severity_score".equals(lineNumberReader.readLine())) {
+                throw new RulebookFormatException(e, filepath);
+            }
+            while (true) {
+                final String line = lineNumberReader.readLine();
+                if (line == null) break; // end of file
+                if (line.isBlank()) throw new RulebookFormatException(e, filepath);
+                String[] parts = line.split(",");
+                if (parts.length != 2) throw new RulebookFormatException(e, filepath);
+                parts[0] = parts[0].trim();
+                parts[1] = parts[1].trim();
+                if (parts[0].isEmpty()) throw new RulebookFormatException(e, filepath);
+                try {
+                    rulebook.getLevelToSeverity().put(parts[0], Integer.parseInt(parts[1]));
+                } catch (NumberFormatException e) {
+                    throw new RulebookFormatException(e, filepath);
+                }
+            }
+        } catch (final FileNotFoundException e) {
+            throw new RulebookReadException(e, filepath);
+        } catch (final IOException e) {
+            throw new RulebookReadException(e, filepath);
+        }
+        return rulebook;
     }
 }
