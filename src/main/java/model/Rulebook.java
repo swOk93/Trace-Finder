@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class Rulebook {
     private final Map<String, Integer> levelToSeverity;

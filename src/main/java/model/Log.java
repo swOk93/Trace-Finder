@@ -2,10 +2,10 @@ package model;
 
 import java.net.Inet4Address;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
 
-import Action;
-import Level;
-import Path;
+import model.MalformedEntry;
 
 public class Log {
     private final List<Entry> entries;
@@ -76,25 +76,6 @@ public class Log {
 
         public Action getAction() {
             return action;
-        }
-    }
-
-    public static class MalformedEntry {
-        private final long line;
-        private final String entry;
-
-        public MalformedEntry(final long line,
-                              final String entry) {
-            this.line = line;
-            this.entry = entry;
-        }
-
-        public long getLine() {
-            return line;
-        }
-
-        public String getEntry() {
-            return entry;
         }
     }
 }
