@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ArrayList;
 
-import model.MalformedEntry;
 
 public class Log {
     private final List<Entry> entries;

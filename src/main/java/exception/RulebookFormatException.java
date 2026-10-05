@@ -3,6 +3,10 @@ package exception;
 public class RulebookFormatException extends Exception {
     private final String path;
 
+    public RulebookFormatException(final String path) {
+        this.path = path;
+    }
+
     public RulebookFormatException(final Throwable cause, final String path) {
         super(cause);
         this.path = path;

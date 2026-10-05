@@ -1,5 +1,6 @@
 import exception.LogUnreadableException;
-
+import exception.RulebookFormatException;
+import exception.RulebookReadException;
 import business.Parser;
 import business.Analyzer;
 import business.Reporter;
@@ -19,6 +20,9 @@ class TraceFinder {
             final Findings findings = Analyzer.analyzeLog(log, rulebook);
             Reporter.writeReport(args[2], findings);
         } catch (final LogUnreadableException e) {
+            System.out.println(e);
+            System.exit(1);
+        } catch (final RulebookFormatException | RulebookReadException e) {
             System.out.println(e);
             System.exit(1);
         }

@@ -1,6 +1,5 @@
 package business;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,10 +19,10 @@ import model.Action;
 import model.Level;
 import model.Log;
 import model.Rulebook;
-import model.Path;
+import model.MalformedEntry;
 
 public class Parser {
-    public static Log parseLog(final String filepath) throws RulebookReadException, RulebookFormatException {
+    public static Log parseLog(final String filepath) throws LogUnreadableException {
         final java.nio.file.Path path;
         try {
             path = java.nio.file.Path.of(filepath);
@@ -41,7 +40,7 @@ public class Parser {
                 String[] parts = line.split("\\|");
 
                 if (line.isBlank() || parts.length != 5) { // if there is empty line or not 5 parts, sent to malformed
-                    log.getMalformedEntries().add(new Log.MalformedEntry(lineNumber, line)); 
+                    log.getMalformedEntries().add(new MalformedEntry(lineNumber, line)); 
                     continue;
                 }
 
@@ -60,7 +59,7 @@ public class Parser {
                     final InetAddress inetAddress = InetAddress.getByName(ipText); // return common type of InetAddress
 
                     if (!(inetAddress instanceof Inet4Address)) { // check if it exactly Inet4Address and
-                        log.getMalformedEntries().add(new Log.MalformedEntry(lineNumber, line)); // sent to malformed if not
+                        log.getMalformedEntries().add(new MalformedEntry(lineNumber, line)); // sent to malformed if not
                         continue;
                     }
 
@@ -80,7 +79,7 @@ public class Parser {
                             );
                     log.getEntries().add(entry);
                 } catch (final DateTimeParseException | UnknownHostException e) {
-                    log.getMalformedEntries().add(new Log.MalformedEntry(lineNumber, line));
+                    log.getMalformedEntries().add(new MalformedEntry(lineNumber, line));
                 }
             }
         } catch (final FileNotFoundException e) {
@@ -91,7 +90,7 @@ public class Parser {
         return log;
     }
 
-    public static Rulebook parseRulebook(final String filepath) throws LogUnreadableException {
+    public static Rulebook parseRulebook(final String filepath) throws RulebookReadException, RulebookFormatException {
         final java.nio.file.Path path;
         try {
             path = java.nio.file.Path.of(filepath);
@@ -102,17 +101,17 @@ public class Parser {
         try (final LineNumberReader lineNumberReader = 
                     new LineNumberReader(new FileReader(path.toFile()))) {
             if ("level,severity_score".equals(lineNumberReader.readLine())) {
-                throw new RulebookFormatException(e, filepath);
+                throw new RulebookFormatException(filepath);
             }
             while (true) {
                 final String line = lineNumberReader.readLine();
                 if (line == null) break; // end of file
-                if (line.isBlank()) throw new RulebookFormatException(e, filepath);
+                if (line.isBlank()) throw new RulebookFormatException(filepath);
                 String[] parts = line.split(",");
-                if (parts.length != 2) throw new RulebookFormatException(e, filepath);
+                if (parts.length != 2) throw new RulebookFormatException(filepath);
                 parts[0] = parts[0].trim();
                 parts[1] = parts[1].trim();
-                if (parts[0].isEmpty()) throw new RulebookFormatException(e, filepath);
+                if (parts[0].isEmpty()) throw new RulebookFormatException(filepath);
                 try {
                     rulebook.getLevelToSeverity().put(parts[0], Integer.parseInt(parts[1]));
                 } catch (NumberFormatException e) {
