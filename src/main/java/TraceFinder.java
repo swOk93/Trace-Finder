@@ -8,7 +8,7 @@ import model.Rulebook;
 import model.Findings;
 import model.Log;
 
-class TraceFinder {
+class tracefinder {
     public static void main(final String[] args) {
         if (args.length != 3) {
             System.out.println("Wrong number of arguments. Please provide log file, rulebook and report name.");
