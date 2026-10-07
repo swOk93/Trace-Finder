@@ -1,3 +1,5 @@
+import exception.InvalidOutputPathException;
+import exception.OutputWriteException;
 import exception.LogUnreadableException;
 import exception.RulebookFormatException;
 import exception.RulebookReadException;
@@ -23,6 +25,9 @@ class tracefinder {
             System.out.println(e);
             System.exit(1);
         } catch (final RulebookFormatException | RulebookReadException e) {
+            System.out.println(e);
+            System.exit(1);
+        } catch (final InvalidOutputPathException | OutputWriteException e) {
             System.out.println(e);
             System.exit(1);
         }
