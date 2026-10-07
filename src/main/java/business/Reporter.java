@@ -2,9 +2,9 @@ package business;
 
 import java.io.IOException;
 import java.net.Inet4Address;
-import java.nio.file.Path;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
@@ -25,9 +25,9 @@ public class Reporter {
     private static final String MALFORMED_HEADER  = System.lineSeparator() + "--- Malformed Lines ---" + System.lineSeparator();
     private static final String NONE_WERE_FOUND   = "none were found" + System.lineSeparator();
 
-    public static void writeReport(final String filepath, final Findings findings) throws InvalidOutputPathException, OutputWriteException {
+    public static String writeReportToString(final Findings findings, final LocalDateTime time) {
         final StringBuilder output = new StringBuilder();
-        output.append(LOG_HEADER.formatted(LocalDateTime.now().format(TIMESTAMP_FORMAT)));
+        output.append(LOG_HEADER.formatted(time.format(TIMESTAMP_FORMAT)));
         
         appendActivitySummary(output, findings);
         appendFlaggedEntries(output, findings);
@@ -35,14 +35,23 @@ public class Reporter {
         appendUnknownPatterns(output, findings);
         appendMalformedLines(output, findings);
 
+        return output.toString();
+    }
+
+    public static void writeReportToFile(final String filepath, final Findings findings) throws InvalidOutputPathException, OutputWriteException {
+        final String output = writeReportToString(findings, LocalDateTime.now());
+        
         final Path path;
         try {
             path = Path.of(filepath);
         } catch (InvalidPathException e) {
             throw new InvalidOutputPathException(filepath, e);
         }
+        if (Files.exists(path) && !Files.isRegularFile(path)) {
+            throw new InvalidOutputPathException(filepath);
+        }
         try {
-            Files.writeString(path, output.toString());
+            Files.writeString(path, output);
         } catch (IOException e) {
             throw new OutputWriteException(filepath, e);
         }
