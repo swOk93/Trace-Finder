@@ -4,8 +4,7 @@ public class MalformedEntry {
     private final long line;
     private final String entry;
 
-    public MalformedEntry(final long line,
-                            final String entry) {
+    public MalformedEntry(final long line, final String entry) {
         this.line = line;
         this.entry = entry;
     }
