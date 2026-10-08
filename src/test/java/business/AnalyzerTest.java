@@ -1,5 +1,7 @@
 package business;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -15,8 +17,6 @@ import model.Log;
 import model.MalformedEntry;
 import model.Path;
 import model.Rulebook;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AnalyzerTest {
     private static final DateTimeFormatter TIMESTAMP_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

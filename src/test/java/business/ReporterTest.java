@@ -1,5 +1,8 @@
 package business;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -11,9 +14,6 @@ import exception.InvalidOutputPathException;
 import model.Findings;
 import model.FlaggedEntry;
 import model.MalformedEntry;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ReporterTest {
     

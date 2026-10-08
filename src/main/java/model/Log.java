@@ -2,9 +2,8 @@ package model;
 
 import java.net.Inet4Address;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.ArrayList;
-
+import java.util.List;
 
 public class Log {
     private final List<Entry> entries;
