@@ -1,14 +1,14 @@
+import business.Analyzer;
+import business.Parser;
+import business.Reporter;
 import exception.InvalidOutputPathException;
-import exception.OutputWriteException;
 import exception.LogUnreadableException;
+import exception.OutputWriteException;
 import exception.RulebookFormatException;
 import exception.RulebookReadException;
-import business.Parser;
-import business.Analyzer;
-import business.Reporter;
-import model.Rulebook;
 import model.Findings;
 import model.Log;
+import model.Rulebook;
 
 class TraceFinder {
     public static void main(final String[] args) {
@@ -21,13 +21,11 @@ class TraceFinder {
             final Rulebook rulebook = Parser.parseRulebook(args[1]);
             final Findings findings = Analyzer.analyzeLog(log, rulebook);
             Reporter.writeReportToFile(args[2], findings);
-        } catch (final LogUnreadableException e) {
-            System.out.println(e);
-            System.exit(1);
-        } catch (final RulebookFormatException | RulebookReadException e) {
-            System.out.println(e);
-            System.exit(1);
-        } catch (final InvalidOutputPathException | OutputWriteException e) {
+        } catch (final LogUnreadableException |
+                       RulebookFormatException |
+                       RulebookReadException |
+                       InvalidOutputPathException |
+                       OutputWriteException e) {
             System.out.println(e);
             System.exit(1);
         }
