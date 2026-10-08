@@ -36,28 +36,29 @@ public class ReporterTest {
 
         final String actual = Reporter.writeReportToString(findings, LocalDateTime.of(2026, 10, 7, 8, 36, 51));
 
-        final String expected = """
-            === Log Analysis Report ===
-            Generated: 2026-10-07 08:36:51
-
-            --- Activity Summary ---
-             INFO: 56
-            ERROR:  6
-
-            --- Flagged Entries ---
-            2024-03-15 02:16:02 | ALERT | 203.0.113.42 | /etc/passwd | read
-            2024-03-15 02:14:33 | WARN | 203.0.113.42 | /login | failed
-
-            --- Suspicious Activity by IP ---
-               203.0.113.42: 15 entries
-                   10.0.0.5:  9 entries
-
-            --- Unknown Patterns ---
-            Line 16: 2024-03-15 03:42:11 | CRIT | 203.0.113.42 | /admin | escalated
-
-            --- Malformed Lines ---
-            Line 25: 2024-03-15 05:00:00 | WARN | 203.0.113.42 | /login
-            """;
+        final String expected = String.join(System.lineSeparator(),
+            "=== Log Analysis Report ===",
+            "Generated: 2026-10-07 08:36:51",
+            "",
+            "--- Activity Summary ---",
+            " INFO: 56",
+            "ERROR:  6",
+            "",
+            "--- Flagged Entries ---",
+            "2024-03-15 02:16:02 | ALERT | 203.0.113.42 | /etc/passwd | read",
+            "2024-03-15 02:14:33 | WARN | 203.0.113.42 | /login | failed",
+            "",
+            "--- Suspicious Activity by IP ---",
+            "   203.0.113.42: 15 entries",
+            "       10.0.0.5:  9 entries",
+            "",
+            "--- Unknown Patterns ---",
+            "Line 16: 2024-03-15 03:42:11 | CRIT | 203.0.113.42 | /admin | escalated",
+            "",
+            "--- Malformed Lines ---",
+            "Line 25: 2024-03-15 05:00:00 | WARN | 203.0.113.42 | /login",
+            ""
+        );
 
         assertEquals(expected, actual);
     }
@@ -68,25 +69,26 @@ public class ReporterTest {
 
         final String actual = Reporter.writeReportToString(findings, LocalDateTime.of(2026, 10, 7, 8, 36, 51));
         
-        final String expected = """
-            === Log Analysis Report ===
-            Generated: 2026-10-07 08:36:51
-
-            --- Activity Summary ---
-            none were found
-
-            --- Flagged Entries ---
-            none were found
-
-            --- Suspicious Activity by IP ---
-            none were found
-
-            --- Unknown Patterns ---
-            none were found
-
-            --- Malformed Lines ---
-            none were found
-            """;
+        final String expected = String.join(System.lineSeparator(),
+            "=== Log Analysis Report ===",
+            "Generated: 2026-10-07 08:36:51",
+            "",
+            "--- Activity Summary ---",
+            "none were found",
+            "",
+            "--- Flagged Entries ---",
+            "none were found",
+            "",
+            "--- Suspicious Activity by IP ---",
+            "none were found",
+            "",
+            "--- Unknown Patterns ---",
+            "none were found",
+            "",
+            "--- Malformed Lines ---",
+            "none were found",
+            ""
+        );
 
         assertEquals(expected, actual);
     }
@@ -101,25 +103,26 @@ public class ReporterTest {
 
         final String actual = Reporter.writeReportToString(findings, LocalDateTime.of(2026, 10, 7, 8, 36, 51));
 
-        final String expected = """
-            === Log Analysis Report ===
-            Generated: 2026-10-07 08:36:51
-
-            --- Activity Summary ---
-             INFO: 1
-
-            --- Flagged Entries ---
-            none were found
-
-            --- Suspicious Activity by IP ---
-                   10.0.0.5: 1 entries
-
-            --- Unknown Patterns ---
-            none were found
-
-            --- Malformed Lines ---
-            Line 25: 2024-03-15 05:00:00 | WARN | 203.0.113.42 | /login
-            """;
+        final String expected = String.join(System.lineSeparator(),
+            "=== Log Analysis Report ===",
+            "Generated: 2026-10-07 08:36:51",
+            "",
+            "--- Activity Summary ---",
+            " INFO: 1",
+            "",
+            "--- Flagged Entries ---",
+            "none were found",
+            "",
+            "--- Suspicious Activity by IP ---",
+            "       10.0.0.5: 1 entries",
+            "",
+            "--- Unknown Patterns ---",
+            "none were found",
+            "",
+            "--- Malformed Lines ---",
+            "Line 25: 2024-03-15 05:00:00 | WARN | 203.0.113.42 | /login",
+            ""
+        );
         
         assertEquals(expected, actual);
     }
