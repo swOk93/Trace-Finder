@@ -18,8 +18,8 @@ import exception.RulebookReadException;
 import model.Action;
 import model.Level;
 import model.Log;
-import model.Rulebook;
 import model.MalformedEntry;
+import model.Rulebook;
 
 public class Parser {
     public static Log parseLog(final String filepath) throws LogUnreadableException {
