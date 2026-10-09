@@ -1,7 +1,13 @@
 2024-03-15 02:14:08 | INFO  | 192.168.1.45  | /login        | success
 2024-03-15 02:14:33 | WARN  | 203.0.113.42  | /login        | failed
+2024-03-15 02:14:33 | Warn  | 203.0.113.42  | /login        | failed
+
 2024-03-15 02:14:35 | WARN  | 203.0.113.42  | /login        | failed
 2024-03-15 02:14:38 | WARN  | 203.0.113.42  | /login        | failed
+2024-03-15 02:14:38 | WARN  | 203.0.113.42  | /login        | failed
+2024-03-15 02:14:37 | WARN  | 203.0.113.44  | /login        | failed
+2024-03-15 02:14:38 | WARN  |   | /login        | failed
+
 2024-03-15 02:15:02 | INFO  | 203.0.113.42  | /login        | success
 2024-03-15 02:15:14 | INFO  | 203.0.113.42  | /admin/users  | accessed
 2024-03-15 02:15:47 | INFO  | 203.0.113.42  | /admin/keys   | accessed

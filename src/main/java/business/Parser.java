@@ -70,7 +70,7 @@ public class Parser {
             final Level level = new Level(levelText);
             final InetAddress inetAddress = InetAddress.getByName(ipText); // return common type of InetAddress
 
-            if (!(inetAddress instanceof Inet4Address)) { // check if it exactly Inet4Address and
+            if (!(inetAddress instanceof Inet4Address) || ipText.isEmpty()) { // check if it exactly Inet4Address and not empty
                 log.getMalformedEntries().add(new MalformedEntry(lineNumber, line)); // sent to malformed if not
                 return;
             }

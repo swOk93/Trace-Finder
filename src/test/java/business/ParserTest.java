@@ -97,6 +97,22 @@ public class ParserTest {
     }
 
     @Test
+    void rejectsLogLineWithEmptyIp() {
+        String line = "2024-03-15 02:14:08 | INFO |  | /login | success";
+        Parser.parseLogLine(line, 0, log);
+
+        assertEquals(line, log.getMalformedEntries().get(0).getEntry());
+    }
+
+    @Test
+    void rejectsLogLineWithEmptyTimeStamp() {
+        String line = " | INFO | 203.0.113.42 | /login | success";
+        Parser.parseLogLine(line, 0, log);
+
+        assertEquals(line, log.getMalformedEntries().get(0).getEntry());
+    }
+
+    @Test
     void rejectsIpv6Address() {
         String line = "2024-03-15 02:14:08 | INFO | 2001:db8::1 | /login | success";
         Parser.parseLogLine(line, 0, log);
