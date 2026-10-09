@@ -37,5 +37,13 @@ timestamp | level | source IP | target | action
 Example:
 2024-03-15 02:14:08 | INFO | 192.168.1.45 | /login | success
 
+## Rulebook format
+
+level,severity_score
+INFO,1
+WARN,3
+ERROR,5
+ALERT,9
+
 
 
