@@ -15,17 +15,17 @@ public class Analyzer {
     public static Findings analyzeLog(final Log log, final Rulebook rulebook) {
         final Findings findings = new Findings();
         final Map<String, Integer> rules = rulebook.getLevelToSeverity();
-        final Map<Inet4Address, Integer> ipCounts = new HashMap<>();
-        final Set<Inet4Address> suspiciousIps = new HashSet<>();
+        final Map<Inet4Address, Integer> ipCounts = new HashMap<>(); // hashmap for every ip and how many times it occured
+        final Set<Inet4Address> suspiciousIps = new HashSet<>(); // stores unique suspicious IP addresses
 
         for (final Log.Entry entry : log.getEntries()) {
             final Inet4Address ip = entry.getAddress();
             final String level = entry.getLevel().getValue();
             final Integer severity = rules.get(level);
             
-            ipCounts.merge(ip, 1, Integer::sum);
+            ipCounts.merge(ip, 1, Integer::sum); // if there is no such ip, put 1, else increment the count
 
-            if (severity == null) {
+            if (severity == null) { // if there is no such level in rulebook
                 findings.getUnknownPatterns().add(new Findings.UnknownPattern(entry.getLine(), entry.getRaw()));
             } else {
                 findings.getLevelToOccurrences().merge(level, 1, Integer::sum);

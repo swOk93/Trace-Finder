@@ -17,10 +17,10 @@ class TraceFinder {
             System.exit(1);
         }
         try {
-            final Log log = Parser.parseLog(args[0]);
-            final Rulebook rulebook = Parser.parseRulebook(args[1]);
-            final Findings findings = Analyzer.analyzeLog(log, rulebook);
-            Reporter.writeReportToFile(args[2], findings);
+            final Log log = Parser.parseLog(args[0]); // parses the log file into valid and malformed log entries
+            final Rulebook rulebook = Parser.parseRulebook(args[1]); // converts file into hashmap Level -> severity
+            final Findings findings = Analyzer.analyzeLog(log, rulebook); // analyzes and prepares data
+            Reporter.writeReportToFile(args[2], findings); // formats the findings and writes the report to the output file
         } catch (final LogUnreadableException |
                        RulebookFormatException |
                        RulebookReadException |
